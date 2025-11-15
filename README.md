@@ -9,6 +9,10 @@ and offers both synchronous and asynchronous clients powered by [httpx](https://
 
 It is generated with [Stainless](https://www.stainless.com/).
 
+## Legal Jibber Jabber
+
+lolesports_api-python isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+
 ## Documentation
 
 The full API of this library can be found in [api.md](api.md).
