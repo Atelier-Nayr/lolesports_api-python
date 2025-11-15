@@ -31,7 +31,7 @@ class GetStandingsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/lolesports_api-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Atelier-Nayr/lolesports_api-python#accessing-raw-response-data-eg-headers
         """
         return GetStandingsResourceWithRawResponse(self)
 
@@ -40,7 +40,7 @@ class GetStandingsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/lolesports_api-python#with_streaming_response
+        For more information, see https://www.github.com/Atelier-Nayr/lolesports_api-python#with_streaming_response
         """
         return GetStandingsResourceWithStreamingResponse(self)
 
@@ -119,7 +119,7 @@ class AsyncGetStandingsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/lolesports_api-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Atelier-Nayr/lolesports_api-python#accessing-raw-response-data-eg-headers
         """
         return AsyncGetStandingsResourceWithRawResponse(self)
 
@@ -128,7 +128,7 @@ class AsyncGetStandingsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/lolesports_api-python#with_streaming_response
+        For more information, see https://www.github.com/Atelier-Nayr/lolesports_api-python#with_streaming_response
         """
         return AsyncGetStandingsResourceWithStreamingResponse(self)
 
