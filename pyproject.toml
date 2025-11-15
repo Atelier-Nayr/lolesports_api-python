@@ -1,6 +1,6 @@
 [project]
 name = "lolesports_api"
-version = "1.0.0"
+version = "1.0.1"
 description = "The official Python library for the lolesports_api API"
 dynamic = ["readme"]
 license = "Apache-2.0"
