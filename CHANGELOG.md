@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.2 (2025-11-22)
+
+Full Changelog: [v1.0.1...v1.0.2](https://github.com/Atelier-Nayr/lolesports_api-python/compare/v1.0.1...v1.0.2)
+
+### Chores
+
+* add Python 3.14 classifier and testing ([a6d386d](https://github.com/Atelier-Nayr/lolesports_api-python/commit/a6d386d1281f6470a4ee5995ef309afe2ce165b1))
+
 ## 1.0.1 (2025-11-15)
 
 Full Changelog: [v1.0.0...v1.0.1](https://github.com/Atelier-Nayr/lolesports_api-python/compare/v1.0.0...v1.0.1)
