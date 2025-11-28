@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.2 (2025-11-28)
+
+Full Changelog: [v1.0.1...v1.0.2](https://github.com/Atelier-Nayr/lolesports_api-python/compare/v1.0.1...v1.0.2)
+
+### Bug Fixes
+
+* ensure streams are always closed ([9b90434](https://github.com/Atelier-Nayr/lolesports_api-python/commit/9b9043490cea5ed801cfd8e0a6ca2ddc467136ec))
+
+
+### Chores
+
+* add Python 3.14 classifier and testing ([a6d386d](https://github.com/Atelier-Nayr/lolesports_api-python/commit/a6d386d1281f6470a4ee5995ef309afe2ce165b1))
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([cb93322](https://github.com/Atelier-Nayr/lolesports_api-python/commit/cb93322e1cb272fa592231035b8b4cfa94aa604d))
+
 ## 1.0.1 (2025-11-15)
 
 Full Changelog: [v1.0.0...v1.0.1](https://github.com/Atelier-Nayr/lolesports_api-python/compare/v1.0.0...v1.0.1)
