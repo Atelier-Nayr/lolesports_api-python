@@ -83,6 +83,7 @@ pip install lolesports_api[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from lolesports_api import DefaultAioHttpClient
 from lolesports_api import AsyncLolesportsAPI
@@ -90,7 +91,7 @@ from lolesports_api import AsyncLolesportsAPI
 
 async def main() -> None:
     async with AsyncLolesportsAPI(
-        api_key="My API Key",
+        api_key=os.environ.get("LOLESPORTS_API_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         get_leagues = await client.get_leagues.list(
