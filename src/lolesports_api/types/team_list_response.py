@@ -73,6 +73,8 @@ class TeamStatsHistory(BaseModel):
 
 
 class TeamStatsSummaryAverageDamageByPosition(BaseModel):
+    """It is assumed that the values represent the damage dealt in thousands."""
+
     duo: Optional[int] = FieldInfo(alias="DUO", default=None)
 
     duo_carry: Optional[int] = FieldInfo(alias="DUO_CARRY", default=None)

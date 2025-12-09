@@ -112,6 +112,11 @@ class DataStandingStageSection(BaseModel):
 
 
 class DataStandingStage(BaseModel):
+    """Represents a stage in a tournament.
+
+    Whether it is the group or knockout stage.
+    """
+
     name: str
     """The name of that stage of the tournament"""
 
