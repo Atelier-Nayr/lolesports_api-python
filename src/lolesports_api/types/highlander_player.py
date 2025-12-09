@@ -34,6 +34,13 @@ class Champion(BaseModel):
 
 
 class ForeignIDs(foreign_ids.ForeignIDs):
+    """'This object may contain keys which are the names of various tournament realms.
+
+    **Example:** `ESPORTSTMNT02: "200008392"`
+
+    The purpose of the value in those strings is unknown.'
+    """
+
     pass
 
 
