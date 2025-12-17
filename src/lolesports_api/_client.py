@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -20,27 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import (
-    teams,
-    videos,
-    window,
-    details,
-    leagues,
-    players,
-    get_live,
-    get_games,
-    get_teams,
-    nav_items,
-    get_leagues,
-    get_schedule,
-    get_standings,
-    schedule_items,
-    get_event_details,
-    get_completed_events,
-    highlander_tournaments,
-    get_tournaments_for_league,
-)
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, LolesportsAPIError
 from ._base_client import (
@@ -48,6 +29,49 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+
+if TYPE_CHECKING:
+    from .resources import (
+        teams,
+        videos,
+        window,
+        details,
+        leagues,
+        players,
+        get_live,
+        get_games,
+        get_teams,
+        nav_items,
+        get_leagues,
+        get_schedule,
+        get_standings,
+        schedule_items,
+        get_event_details,
+        get_completed_events,
+        highlander_tournaments,
+        get_tournaments_for_league,
+    )
+    from .resources.teams import TeamsResource, AsyncTeamsResource
+    from .resources.videos import VideosResource, AsyncVideosResource
+    from .resources.window import WindowResource, AsyncWindowResource
+    from .resources.details import DetailsResource, AsyncDetailsResource
+    from .resources.leagues import LeaguesResource, AsyncLeaguesResource
+    from .resources.players import PlayersResource, AsyncPlayersResource
+    from .resources.get_live import GetLiveResource, AsyncGetLiveResource
+    from .resources.get_games import GetGamesResource, AsyncGetGamesResource
+    from .resources.get_teams import GetTeamsResource, AsyncGetTeamsResource
+    from .resources.nav_items import NavItemsResource, AsyncNavItemsResource
+    from .resources.get_leagues import GetLeaguesResource, AsyncGetLeaguesResource
+    from .resources.get_schedule import GetScheduleResource, AsyncGetScheduleResource
+    from .resources.get_standings import GetStandingsResource, AsyncGetStandingsResource
+    from .resources.schedule_items import ScheduleItemsResource, AsyncScheduleItemsResource
+    from .resources.get_event_details import GetEventDetailsResource, AsyncGetEventDetailsResource
+    from .resources.get_completed_events import GetCompletedEventsResource, AsyncGetCompletedEventsResource
+    from .resources.highlander_tournaments import HighlanderTournamentsResource, AsyncHighlanderTournamentsResource
+    from .resources.get_tournaments_for_league import (
+        GetTournamentsForLeagueResource,
+        AsyncGetTournamentsForLeagueResource,
+    )
 
 __all__ = [
     "Timeout",
@@ -62,27 +86,6 @@ __all__ = [
 
 
 class LolesportsAPI(SyncAPIClient):
-    get_leagues: get_leagues.GetLeaguesResource
-    get_schedule: get_schedule.GetScheduleResource
-    get_live: get_live.GetLiveResource
-    get_tournaments_for_league: get_tournaments_for_league.GetTournamentsForLeagueResource
-    get_standings: get_standings.GetStandingsResource
-    get_completed_events: get_completed_events.GetCompletedEventsResource
-    get_event_details: get_event_details.GetEventDetailsResource
-    get_teams: get_teams.GetTeamsResource
-    get_games: get_games.GetGamesResource
-    window: window.WindowResource
-    details: details.DetailsResource
-    nav_items: nav_items.NavItemsResource
-    videos: videos.VideosResource
-    highlander_tournaments: highlander_tournaments.HighlanderTournamentsResource
-    leagues: leagues.LeaguesResource
-    schedule_items: schedule_items.ScheduleItemsResource
-    teams: teams.TeamsResource
-    players: players.PlayersResource
-    with_raw_response: LolesportsAPIWithRawResponse
-    with_streaming_response: LolesportsAPIWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -138,26 +141,121 @@ class LolesportsAPI(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.get_leagues = get_leagues.GetLeaguesResource(self)
-        self.get_schedule = get_schedule.GetScheduleResource(self)
-        self.get_live = get_live.GetLiveResource(self)
-        self.get_tournaments_for_league = get_tournaments_for_league.GetTournamentsForLeagueResource(self)
-        self.get_standings = get_standings.GetStandingsResource(self)
-        self.get_completed_events = get_completed_events.GetCompletedEventsResource(self)
-        self.get_event_details = get_event_details.GetEventDetailsResource(self)
-        self.get_teams = get_teams.GetTeamsResource(self)
-        self.get_games = get_games.GetGamesResource(self)
-        self.window = window.WindowResource(self)
-        self.details = details.DetailsResource(self)
-        self.nav_items = nav_items.NavItemsResource(self)
-        self.videos = videos.VideosResource(self)
-        self.highlander_tournaments = highlander_tournaments.HighlanderTournamentsResource(self)
-        self.leagues = leagues.LeaguesResource(self)
-        self.schedule_items = schedule_items.ScheduleItemsResource(self)
-        self.teams = teams.TeamsResource(self)
-        self.players = players.PlayersResource(self)
-        self.with_raw_response = LolesportsAPIWithRawResponse(self)
-        self.with_streaming_response = LolesportsAPIWithStreamedResponse(self)
+    @cached_property
+    def get_leagues(self) -> GetLeaguesResource:
+        from .resources.get_leagues import GetLeaguesResource
+
+        return GetLeaguesResource(self)
+
+    @cached_property
+    def get_schedule(self) -> GetScheduleResource:
+        from .resources.get_schedule import GetScheduleResource
+
+        return GetScheduleResource(self)
+
+    @cached_property
+    def get_live(self) -> GetLiveResource:
+        from .resources.get_live import GetLiveResource
+
+        return GetLiveResource(self)
+
+    @cached_property
+    def get_tournaments_for_league(self) -> GetTournamentsForLeagueResource:
+        from .resources.get_tournaments_for_league import GetTournamentsForLeagueResource
+
+        return GetTournamentsForLeagueResource(self)
+
+    @cached_property
+    def get_standings(self) -> GetStandingsResource:
+        from .resources.get_standings import GetStandingsResource
+
+        return GetStandingsResource(self)
+
+    @cached_property
+    def get_completed_events(self) -> GetCompletedEventsResource:
+        from .resources.get_completed_events import GetCompletedEventsResource
+
+        return GetCompletedEventsResource(self)
+
+    @cached_property
+    def get_event_details(self) -> GetEventDetailsResource:
+        from .resources.get_event_details import GetEventDetailsResource
+
+        return GetEventDetailsResource(self)
+
+    @cached_property
+    def get_teams(self) -> GetTeamsResource:
+        from .resources.get_teams import GetTeamsResource
+
+        return GetTeamsResource(self)
+
+    @cached_property
+    def get_games(self) -> GetGamesResource:
+        from .resources.get_games import GetGamesResource
+
+        return GetGamesResource(self)
+
+    @cached_property
+    def window(self) -> WindowResource:
+        from .resources.window import WindowResource
+
+        return WindowResource(self)
+
+    @cached_property
+    def details(self) -> DetailsResource:
+        from .resources.details import DetailsResource
+
+        return DetailsResource(self)
+
+    @cached_property
+    def nav_items(self) -> NavItemsResource:
+        from .resources.nav_items import NavItemsResource
+
+        return NavItemsResource(self)
+
+    @cached_property
+    def videos(self) -> VideosResource:
+        from .resources.videos import VideosResource
+
+        return VideosResource(self)
+
+    @cached_property
+    def highlander_tournaments(self) -> HighlanderTournamentsResource:
+        from .resources.highlander_tournaments import HighlanderTournamentsResource
+
+        return HighlanderTournamentsResource(self)
+
+    @cached_property
+    def leagues(self) -> LeaguesResource:
+        from .resources.leagues import LeaguesResource
+
+        return LeaguesResource(self)
+
+    @cached_property
+    def schedule_items(self) -> ScheduleItemsResource:
+        from .resources.schedule_items import ScheduleItemsResource
+
+        return ScheduleItemsResource(self)
+
+    @cached_property
+    def teams(self) -> TeamsResource:
+        from .resources.teams import TeamsResource
+
+        return TeamsResource(self)
+
+    @cached_property
+    def players(self) -> PlayersResource:
+        from .resources.players import PlayersResource
+
+        return PlayersResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> LolesportsAPIWithRawResponse:
+        return LolesportsAPIWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> LolesportsAPIWithStreamedResponse:
+        return LolesportsAPIWithStreamedResponse(self)
 
     @property
     @override
@@ -267,27 +365,6 @@ class LolesportsAPI(SyncAPIClient):
 
 
 class AsyncLolesportsAPI(AsyncAPIClient):
-    get_leagues: get_leagues.AsyncGetLeaguesResource
-    get_schedule: get_schedule.AsyncGetScheduleResource
-    get_live: get_live.AsyncGetLiveResource
-    get_tournaments_for_league: get_tournaments_for_league.AsyncGetTournamentsForLeagueResource
-    get_standings: get_standings.AsyncGetStandingsResource
-    get_completed_events: get_completed_events.AsyncGetCompletedEventsResource
-    get_event_details: get_event_details.AsyncGetEventDetailsResource
-    get_teams: get_teams.AsyncGetTeamsResource
-    get_games: get_games.AsyncGetGamesResource
-    window: window.AsyncWindowResource
-    details: details.AsyncDetailsResource
-    nav_items: nav_items.AsyncNavItemsResource
-    videos: videos.AsyncVideosResource
-    highlander_tournaments: highlander_tournaments.AsyncHighlanderTournamentsResource
-    leagues: leagues.AsyncLeaguesResource
-    schedule_items: schedule_items.AsyncScheduleItemsResource
-    teams: teams.AsyncTeamsResource
-    players: players.AsyncPlayersResource
-    with_raw_response: AsyncLolesportsAPIWithRawResponse
-    with_streaming_response: AsyncLolesportsAPIWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -343,26 +420,121 @@ class AsyncLolesportsAPI(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.get_leagues = get_leagues.AsyncGetLeaguesResource(self)
-        self.get_schedule = get_schedule.AsyncGetScheduleResource(self)
-        self.get_live = get_live.AsyncGetLiveResource(self)
-        self.get_tournaments_for_league = get_tournaments_for_league.AsyncGetTournamentsForLeagueResource(self)
-        self.get_standings = get_standings.AsyncGetStandingsResource(self)
-        self.get_completed_events = get_completed_events.AsyncGetCompletedEventsResource(self)
-        self.get_event_details = get_event_details.AsyncGetEventDetailsResource(self)
-        self.get_teams = get_teams.AsyncGetTeamsResource(self)
-        self.get_games = get_games.AsyncGetGamesResource(self)
-        self.window = window.AsyncWindowResource(self)
-        self.details = details.AsyncDetailsResource(self)
-        self.nav_items = nav_items.AsyncNavItemsResource(self)
-        self.videos = videos.AsyncVideosResource(self)
-        self.highlander_tournaments = highlander_tournaments.AsyncHighlanderTournamentsResource(self)
-        self.leagues = leagues.AsyncLeaguesResource(self)
-        self.schedule_items = schedule_items.AsyncScheduleItemsResource(self)
-        self.teams = teams.AsyncTeamsResource(self)
-        self.players = players.AsyncPlayersResource(self)
-        self.with_raw_response = AsyncLolesportsAPIWithRawResponse(self)
-        self.with_streaming_response = AsyncLolesportsAPIWithStreamedResponse(self)
+    @cached_property
+    def get_leagues(self) -> AsyncGetLeaguesResource:
+        from .resources.get_leagues import AsyncGetLeaguesResource
+
+        return AsyncGetLeaguesResource(self)
+
+    @cached_property
+    def get_schedule(self) -> AsyncGetScheduleResource:
+        from .resources.get_schedule import AsyncGetScheduleResource
+
+        return AsyncGetScheduleResource(self)
+
+    @cached_property
+    def get_live(self) -> AsyncGetLiveResource:
+        from .resources.get_live import AsyncGetLiveResource
+
+        return AsyncGetLiveResource(self)
+
+    @cached_property
+    def get_tournaments_for_league(self) -> AsyncGetTournamentsForLeagueResource:
+        from .resources.get_tournaments_for_league import AsyncGetTournamentsForLeagueResource
+
+        return AsyncGetTournamentsForLeagueResource(self)
+
+    @cached_property
+    def get_standings(self) -> AsyncGetStandingsResource:
+        from .resources.get_standings import AsyncGetStandingsResource
+
+        return AsyncGetStandingsResource(self)
+
+    @cached_property
+    def get_completed_events(self) -> AsyncGetCompletedEventsResource:
+        from .resources.get_completed_events import AsyncGetCompletedEventsResource
+
+        return AsyncGetCompletedEventsResource(self)
+
+    @cached_property
+    def get_event_details(self) -> AsyncGetEventDetailsResource:
+        from .resources.get_event_details import AsyncGetEventDetailsResource
+
+        return AsyncGetEventDetailsResource(self)
+
+    @cached_property
+    def get_teams(self) -> AsyncGetTeamsResource:
+        from .resources.get_teams import AsyncGetTeamsResource
+
+        return AsyncGetTeamsResource(self)
+
+    @cached_property
+    def get_games(self) -> AsyncGetGamesResource:
+        from .resources.get_games import AsyncGetGamesResource
+
+        return AsyncGetGamesResource(self)
+
+    @cached_property
+    def window(self) -> AsyncWindowResource:
+        from .resources.window import AsyncWindowResource
+
+        return AsyncWindowResource(self)
+
+    @cached_property
+    def details(self) -> AsyncDetailsResource:
+        from .resources.details import AsyncDetailsResource
+
+        return AsyncDetailsResource(self)
+
+    @cached_property
+    def nav_items(self) -> AsyncNavItemsResource:
+        from .resources.nav_items import AsyncNavItemsResource
+
+        return AsyncNavItemsResource(self)
+
+    @cached_property
+    def videos(self) -> AsyncVideosResource:
+        from .resources.videos import AsyncVideosResource
+
+        return AsyncVideosResource(self)
+
+    @cached_property
+    def highlander_tournaments(self) -> AsyncHighlanderTournamentsResource:
+        from .resources.highlander_tournaments import AsyncHighlanderTournamentsResource
+
+        return AsyncHighlanderTournamentsResource(self)
+
+    @cached_property
+    def leagues(self) -> AsyncLeaguesResource:
+        from .resources.leagues import AsyncLeaguesResource
+
+        return AsyncLeaguesResource(self)
+
+    @cached_property
+    def schedule_items(self) -> AsyncScheduleItemsResource:
+        from .resources.schedule_items import AsyncScheduleItemsResource
+
+        return AsyncScheduleItemsResource(self)
+
+    @cached_property
+    def teams(self) -> AsyncTeamsResource:
+        from .resources.teams import AsyncTeamsResource
+
+        return AsyncTeamsResource(self)
+
+    @cached_property
+    def players(self) -> AsyncPlayersResource:
+        from .resources.players import AsyncPlayersResource
+
+        return AsyncPlayersResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncLolesportsAPIWithRawResponse:
+        return AsyncLolesportsAPIWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncLolesportsAPIWithStreamedResponse:
+        return AsyncLolesportsAPIWithStreamedResponse(self)
 
     @property
     @override
@@ -472,125 +644,469 @@ class AsyncLolesportsAPI(AsyncAPIClient):
 
 
 class LolesportsAPIWithRawResponse:
+    _client: LolesportsAPI
+
     def __init__(self, client: LolesportsAPI) -> None:
-        self.get_leagues = get_leagues.GetLeaguesResourceWithRawResponse(client.get_leagues)
-        self.get_schedule = get_schedule.GetScheduleResourceWithRawResponse(client.get_schedule)
-        self.get_live = get_live.GetLiveResourceWithRawResponse(client.get_live)
-        self.get_tournaments_for_league = get_tournaments_for_league.GetTournamentsForLeagueResourceWithRawResponse(
-            client.get_tournaments_for_league
-        )
-        self.get_standings = get_standings.GetStandingsResourceWithRawResponse(client.get_standings)
-        self.get_completed_events = get_completed_events.GetCompletedEventsResourceWithRawResponse(
-            client.get_completed_events
-        )
-        self.get_event_details = get_event_details.GetEventDetailsResourceWithRawResponse(client.get_event_details)
-        self.get_teams = get_teams.GetTeamsResourceWithRawResponse(client.get_teams)
-        self.get_games = get_games.GetGamesResourceWithRawResponse(client.get_games)
-        self.window = window.WindowResourceWithRawResponse(client.window)
-        self.details = details.DetailsResourceWithRawResponse(client.details)
-        self.nav_items = nav_items.NavItemsResourceWithRawResponse(client.nav_items)
-        self.videos = videos.VideosResourceWithRawResponse(client.videos)
-        self.highlander_tournaments = highlander_tournaments.HighlanderTournamentsResourceWithRawResponse(
-            client.highlander_tournaments
-        )
-        self.leagues = leagues.LeaguesResourceWithRawResponse(client.leagues)
-        self.schedule_items = schedule_items.ScheduleItemsResourceWithRawResponse(client.schedule_items)
-        self.teams = teams.TeamsResourceWithRawResponse(client.teams)
-        self.players = players.PlayersResourceWithRawResponse(client.players)
+        self._client = client
+
+    @cached_property
+    def get_leagues(self) -> get_leagues.GetLeaguesResourceWithRawResponse:
+        from .resources.get_leagues import GetLeaguesResourceWithRawResponse
+
+        return GetLeaguesResourceWithRawResponse(self._client.get_leagues)
+
+    @cached_property
+    def get_schedule(self) -> get_schedule.GetScheduleResourceWithRawResponse:
+        from .resources.get_schedule import GetScheduleResourceWithRawResponse
+
+        return GetScheduleResourceWithRawResponse(self._client.get_schedule)
+
+    @cached_property
+    def get_live(self) -> get_live.GetLiveResourceWithRawResponse:
+        from .resources.get_live import GetLiveResourceWithRawResponse
+
+        return GetLiveResourceWithRawResponse(self._client.get_live)
+
+    @cached_property
+    def get_tournaments_for_league(self) -> get_tournaments_for_league.GetTournamentsForLeagueResourceWithRawResponse:
+        from .resources.get_tournaments_for_league import GetTournamentsForLeagueResourceWithRawResponse
+
+        return GetTournamentsForLeagueResourceWithRawResponse(self._client.get_tournaments_for_league)
+
+    @cached_property
+    def get_standings(self) -> get_standings.GetStandingsResourceWithRawResponse:
+        from .resources.get_standings import GetStandingsResourceWithRawResponse
+
+        return GetStandingsResourceWithRawResponse(self._client.get_standings)
+
+    @cached_property
+    def get_completed_events(self) -> get_completed_events.GetCompletedEventsResourceWithRawResponse:
+        from .resources.get_completed_events import GetCompletedEventsResourceWithRawResponse
+
+        return GetCompletedEventsResourceWithRawResponse(self._client.get_completed_events)
+
+    @cached_property
+    def get_event_details(self) -> get_event_details.GetEventDetailsResourceWithRawResponse:
+        from .resources.get_event_details import GetEventDetailsResourceWithRawResponse
+
+        return GetEventDetailsResourceWithRawResponse(self._client.get_event_details)
+
+    @cached_property
+    def get_teams(self) -> get_teams.GetTeamsResourceWithRawResponse:
+        from .resources.get_teams import GetTeamsResourceWithRawResponse
+
+        return GetTeamsResourceWithRawResponse(self._client.get_teams)
+
+    @cached_property
+    def get_games(self) -> get_games.GetGamesResourceWithRawResponse:
+        from .resources.get_games import GetGamesResourceWithRawResponse
+
+        return GetGamesResourceWithRawResponse(self._client.get_games)
+
+    @cached_property
+    def window(self) -> window.WindowResourceWithRawResponse:
+        from .resources.window import WindowResourceWithRawResponse
+
+        return WindowResourceWithRawResponse(self._client.window)
+
+    @cached_property
+    def details(self) -> details.DetailsResourceWithRawResponse:
+        from .resources.details import DetailsResourceWithRawResponse
+
+        return DetailsResourceWithRawResponse(self._client.details)
+
+    @cached_property
+    def nav_items(self) -> nav_items.NavItemsResourceWithRawResponse:
+        from .resources.nav_items import NavItemsResourceWithRawResponse
+
+        return NavItemsResourceWithRawResponse(self._client.nav_items)
+
+    @cached_property
+    def videos(self) -> videos.VideosResourceWithRawResponse:
+        from .resources.videos import VideosResourceWithRawResponse
+
+        return VideosResourceWithRawResponse(self._client.videos)
+
+    @cached_property
+    def highlander_tournaments(self) -> highlander_tournaments.HighlanderTournamentsResourceWithRawResponse:
+        from .resources.highlander_tournaments import HighlanderTournamentsResourceWithRawResponse
+
+        return HighlanderTournamentsResourceWithRawResponse(self._client.highlander_tournaments)
+
+    @cached_property
+    def leagues(self) -> leagues.LeaguesResourceWithRawResponse:
+        from .resources.leagues import LeaguesResourceWithRawResponse
+
+        return LeaguesResourceWithRawResponse(self._client.leagues)
+
+    @cached_property
+    def schedule_items(self) -> schedule_items.ScheduleItemsResourceWithRawResponse:
+        from .resources.schedule_items import ScheduleItemsResourceWithRawResponse
+
+        return ScheduleItemsResourceWithRawResponse(self._client.schedule_items)
+
+    @cached_property
+    def teams(self) -> teams.TeamsResourceWithRawResponse:
+        from .resources.teams import TeamsResourceWithRawResponse
+
+        return TeamsResourceWithRawResponse(self._client.teams)
+
+    @cached_property
+    def players(self) -> players.PlayersResourceWithRawResponse:
+        from .resources.players import PlayersResourceWithRawResponse
+
+        return PlayersResourceWithRawResponse(self._client.players)
 
 
 class AsyncLolesportsAPIWithRawResponse:
+    _client: AsyncLolesportsAPI
+
     def __init__(self, client: AsyncLolesportsAPI) -> None:
-        self.get_leagues = get_leagues.AsyncGetLeaguesResourceWithRawResponse(client.get_leagues)
-        self.get_schedule = get_schedule.AsyncGetScheduleResourceWithRawResponse(client.get_schedule)
-        self.get_live = get_live.AsyncGetLiveResourceWithRawResponse(client.get_live)
-        self.get_tournaments_for_league = (
-            get_tournaments_for_league.AsyncGetTournamentsForLeagueResourceWithRawResponse(
-                client.get_tournaments_for_league
-            )
-        )
-        self.get_standings = get_standings.AsyncGetStandingsResourceWithRawResponse(client.get_standings)
-        self.get_completed_events = get_completed_events.AsyncGetCompletedEventsResourceWithRawResponse(
-            client.get_completed_events
-        )
-        self.get_event_details = get_event_details.AsyncGetEventDetailsResourceWithRawResponse(client.get_event_details)
-        self.get_teams = get_teams.AsyncGetTeamsResourceWithRawResponse(client.get_teams)
-        self.get_games = get_games.AsyncGetGamesResourceWithRawResponse(client.get_games)
-        self.window = window.AsyncWindowResourceWithRawResponse(client.window)
-        self.details = details.AsyncDetailsResourceWithRawResponse(client.details)
-        self.nav_items = nav_items.AsyncNavItemsResourceWithRawResponse(client.nav_items)
-        self.videos = videos.AsyncVideosResourceWithRawResponse(client.videos)
-        self.highlander_tournaments = highlander_tournaments.AsyncHighlanderTournamentsResourceWithRawResponse(
-            client.highlander_tournaments
-        )
-        self.leagues = leagues.AsyncLeaguesResourceWithRawResponse(client.leagues)
-        self.schedule_items = schedule_items.AsyncScheduleItemsResourceWithRawResponse(client.schedule_items)
-        self.teams = teams.AsyncTeamsResourceWithRawResponse(client.teams)
-        self.players = players.AsyncPlayersResourceWithRawResponse(client.players)
+        self._client = client
+
+    @cached_property
+    def get_leagues(self) -> get_leagues.AsyncGetLeaguesResourceWithRawResponse:
+        from .resources.get_leagues import AsyncGetLeaguesResourceWithRawResponse
+
+        return AsyncGetLeaguesResourceWithRawResponse(self._client.get_leagues)
+
+    @cached_property
+    def get_schedule(self) -> get_schedule.AsyncGetScheduleResourceWithRawResponse:
+        from .resources.get_schedule import AsyncGetScheduleResourceWithRawResponse
+
+        return AsyncGetScheduleResourceWithRawResponse(self._client.get_schedule)
+
+    @cached_property
+    def get_live(self) -> get_live.AsyncGetLiveResourceWithRawResponse:
+        from .resources.get_live import AsyncGetLiveResourceWithRawResponse
+
+        return AsyncGetLiveResourceWithRawResponse(self._client.get_live)
+
+    @cached_property
+    def get_tournaments_for_league(
+        self,
+    ) -> get_tournaments_for_league.AsyncGetTournamentsForLeagueResourceWithRawResponse:
+        from .resources.get_tournaments_for_league import AsyncGetTournamentsForLeagueResourceWithRawResponse
+
+        return AsyncGetTournamentsForLeagueResourceWithRawResponse(self._client.get_tournaments_for_league)
+
+    @cached_property
+    def get_standings(self) -> get_standings.AsyncGetStandingsResourceWithRawResponse:
+        from .resources.get_standings import AsyncGetStandingsResourceWithRawResponse
+
+        return AsyncGetStandingsResourceWithRawResponse(self._client.get_standings)
+
+    @cached_property
+    def get_completed_events(self) -> get_completed_events.AsyncGetCompletedEventsResourceWithRawResponse:
+        from .resources.get_completed_events import AsyncGetCompletedEventsResourceWithRawResponse
+
+        return AsyncGetCompletedEventsResourceWithRawResponse(self._client.get_completed_events)
+
+    @cached_property
+    def get_event_details(self) -> get_event_details.AsyncGetEventDetailsResourceWithRawResponse:
+        from .resources.get_event_details import AsyncGetEventDetailsResourceWithRawResponse
+
+        return AsyncGetEventDetailsResourceWithRawResponse(self._client.get_event_details)
+
+    @cached_property
+    def get_teams(self) -> get_teams.AsyncGetTeamsResourceWithRawResponse:
+        from .resources.get_teams import AsyncGetTeamsResourceWithRawResponse
+
+        return AsyncGetTeamsResourceWithRawResponse(self._client.get_teams)
+
+    @cached_property
+    def get_games(self) -> get_games.AsyncGetGamesResourceWithRawResponse:
+        from .resources.get_games import AsyncGetGamesResourceWithRawResponse
+
+        return AsyncGetGamesResourceWithRawResponse(self._client.get_games)
+
+    @cached_property
+    def window(self) -> window.AsyncWindowResourceWithRawResponse:
+        from .resources.window import AsyncWindowResourceWithRawResponse
+
+        return AsyncWindowResourceWithRawResponse(self._client.window)
+
+    @cached_property
+    def details(self) -> details.AsyncDetailsResourceWithRawResponse:
+        from .resources.details import AsyncDetailsResourceWithRawResponse
+
+        return AsyncDetailsResourceWithRawResponse(self._client.details)
+
+    @cached_property
+    def nav_items(self) -> nav_items.AsyncNavItemsResourceWithRawResponse:
+        from .resources.nav_items import AsyncNavItemsResourceWithRawResponse
+
+        return AsyncNavItemsResourceWithRawResponse(self._client.nav_items)
+
+    @cached_property
+    def videos(self) -> videos.AsyncVideosResourceWithRawResponse:
+        from .resources.videos import AsyncVideosResourceWithRawResponse
+
+        return AsyncVideosResourceWithRawResponse(self._client.videos)
+
+    @cached_property
+    def highlander_tournaments(self) -> highlander_tournaments.AsyncHighlanderTournamentsResourceWithRawResponse:
+        from .resources.highlander_tournaments import AsyncHighlanderTournamentsResourceWithRawResponse
+
+        return AsyncHighlanderTournamentsResourceWithRawResponse(self._client.highlander_tournaments)
+
+    @cached_property
+    def leagues(self) -> leagues.AsyncLeaguesResourceWithRawResponse:
+        from .resources.leagues import AsyncLeaguesResourceWithRawResponse
+
+        return AsyncLeaguesResourceWithRawResponse(self._client.leagues)
+
+    @cached_property
+    def schedule_items(self) -> schedule_items.AsyncScheduleItemsResourceWithRawResponse:
+        from .resources.schedule_items import AsyncScheduleItemsResourceWithRawResponse
+
+        return AsyncScheduleItemsResourceWithRawResponse(self._client.schedule_items)
+
+    @cached_property
+    def teams(self) -> teams.AsyncTeamsResourceWithRawResponse:
+        from .resources.teams import AsyncTeamsResourceWithRawResponse
+
+        return AsyncTeamsResourceWithRawResponse(self._client.teams)
+
+    @cached_property
+    def players(self) -> players.AsyncPlayersResourceWithRawResponse:
+        from .resources.players import AsyncPlayersResourceWithRawResponse
+
+        return AsyncPlayersResourceWithRawResponse(self._client.players)
 
 
 class LolesportsAPIWithStreamedResponse:
+    _client: LolesportsAPI
+
     def __init__(self, client: LolesportsAPI) -> None:
-        self.get_leagues = get_leagues.GetLeaguesResourceWithStreamingResponse(client.get_leagues)
-        self.get_schedule = get_schedule.GetScheduleResourceWithStreamingResponse(client.get_schedule)
-        self.get_live = get_live.GetLiveResourceWithStreamingResponse(client.get_live)
-        self.get_tournaments_for_league = (
-            get_tournaments_for_league.GetTournamentsForLeagueResourceWithStreamingResponse(
-                client.get_tournaments_for_league
-            )
-        )
-        self.get_standings = get_standings.GetStandingsResourceWithStreamingResponse(client.get_standings)
-        self.get_completed_events = get_completed_events.GetCompletedEventsResourceWithStreamingResponse(
-            client.get_completed_events
-        )
-        self.get_event_details = get_event_details.GetEventDetailsResourceWithStreamingResponse(
-            client.get_event_details
-        )
-        self.get_teams = get_teams.GetTeamsResourceWithStreamingResponse(client.get_teams)
-        self.get_games = get_games.GetGamesResourceWithStreamingResponse(client.get_games)
-        self.window = window.WindowResourceWithStreamingResponse(client.window)
-        self.details = details.DetailsResourceWithStreamingResponse(client.details)
-        self.nav_items = nav_items.NavItemsResourceWithStreamingResponse(client.nav_items)
-        self.videos = videos.VideosResourceWithStreamingResponse(client.videos)
-        self.highlander_tournaments = highlander_tournaments.HighlanderTournamentsResourceWithStreamingResponse(
-            client.highlander_tournaments
-        )
-        self.leagues = leagues.LeaguesResourceWithStreamingResponse(client.leagues)
-        self.schedule_items = schedule_items.ScheduleItemsResourceWithStreamingResponse(client.schedule_items)
-        self.teams = teams.TeamsResourceWithStreamingResponse(client.teams)
-        self.players = players.PlayersResourceWithStreamingResponse(client.players)
+        self._client = client
+
+    @cached_property
+    def get_leagues(self) -> get_leagues.GetLeaguesResourceWithStreamingResponse:
+        from .resources.get_leagues import GetLeaguesResourceWithStreamingResponse
+
+        return GetLeaguesResourceWithStreamingResponse(self._client.get_leagues)
+
+    @cached_property
+    def get_schedule(self) -> get_schedule.GetScheduleResourceWithStreamingResponse:
+        from .resources.get_schedule import GetScheduleResourceWithStreamingResponse
+
+        return GetScheduleResourceWithStreamingResponse(self._client.get_schedule)
+
+    @cached_property
+    def get_live(self) -> get_live.GetLiveResourceWithStreamingResponse:
+        from .resources.get_live import GetLiveResourceWithStreamingResponse
+
+        return GetLiveResourceWithStreamingResponse(self._client.get_live)
+
+    @cached_property
+    def get_tournaments_for_league(
+        self,
+    ) -> get_tournaments_for_league.GetTournamentsForLeagueResourceWithStreamingResponse:
+        from .resources.get_tournaments_for_league import GetTournamentsForLeagueResourceWithStreamingResponse
+
+        return GetTournamentsForLeagueResourceWithStreamingResponse(self._client.get_tournaments_for_league)
+
+    @cached_property
+    def get_standings(self) -> get_standings.GetStandingsResourceWithStreamingResponse:
+        from .resources.get_standings import GetStandingsResourceWithStreamingResponse
+
+        return GetStandingsResourceWithStreamingResponse(self._client.get_standings)
+
+    @cached_property
+    def get_completed_events(self) -> get_completed_events.GetCompletedEventsResourceWithStreamingResponse:
+        from .resources.get_completed_events import GetCompletedEventsResourceWithStreamingResponse
+
+        return GetCompletedEventsResourceWithStreamingResponse(self._client.get_completed_events)
+
+    @cached_property
+    def get_event_details(self) -> get_event_details.GetEventDetailsResourceWithStreamingResponse:
+        from .resources.get_event_details import GetEventDetailsResourceWithStreamingResponse
+
+        return GetEventDetailsResourceWithStreamingResponse(self._client.get_event_details)
+
+    @cached_property
+    def get_teams(self) -> get_teams.GetTeamsResourceWithStreamingResponse:
+        from .resources.get_teams import GetTeamsResourceWithStreamingResponse
+
+        return GetTeamsResourceWithStreamingResponse(self._client.get_teams)
+
+    @cached_property
+    def get_games(self) -> get_games.GetGamesResourceWithStreamingResponse:
+        from .resources.get_games import GetGamesResourceWithStreamingResponse
+
+        return GetGamesResourceWithStreamingResponse(self._client.get_games)
+
+    @cached_property
+    def window(self) -> window.WindowResourceWithStreamingResponse:
+        from .resources.window import WindowResourceWithStreamingResponse
+
+        return WindowResourceWithStreamingResponse(self._client.window)
+
+    @cached_property
+    def details(self) -> details.DetailsResourceWithStreamingResponse:
+        from .resources.details import DetailsResourceWithStreamingResponse
+
+        return DetailsResourceWithStreamingResponse(self._client.details)
+
+    @cached_property
+    def nav_items(self) -> nav_items.NavItemsResourceWithStreamingResponse:
+        from .resources.nav_items import NavItemsResourceWithStreamingResponse
+
+        return NavItemsResourceWithStreamingResponse(self._client.nav_items)
+
+    @cached_property
+    def videos(self) -> videos.VideosResourceWithStreamingResponse:
+        from .resources.videos import VideosResourceWithStreamingResponse
+
+        return VideosResourceWithStreamingResponse(self._client.videos)
+
+    @cached_property
+    def highlander_tournaments(self) -> highlander_tournaments.HighlanderTournamentsResourceWithStreamingResponse:
+        from .resources.highlander_tournaments import HighlanderTournamentsResourceWithStreamingResponse
+
+        return HighlanderTournamentsResourceWithStreamingResponse(self._client.highlander_tournaments)
+
+    @cached_property
+    def leagues(self) -> leagues.LeaguesResourceWithStreamingResponse:
+        from .resources.leagues import LeaguesResourceWithStreamingResponse
+
+        return LeaguesResourceWithStreamingResponse(self._client.leagues)
+
+    @cached_property
+    def schedule_items(self) -> schedule_items.ScheduleItemsResourceWithStreamingResponse:
+        from .resources.schedule_items import ScheduleItemsResourceWithStreamingResponse
+
+        return ScheduleItemsResourceWithStreamingResponse(self._client.schedule_items)
+
+    @cached_property
+    def teams(self) -> teams.TeamsResourceWithStreamingResponse:
+        from .resources.teams import TeamsResourceWithStreamingResponse
+
+        return TeamsResourceWithStreamingResponse(self._client.teams)
+
+    @cached_property
+    def players(self) -> players.PlayersResourceWithStreamingResponse:
+        from .resources.players import PlayersResourceWithStreamingResponse
+
+        return PlayersResourceWithStreamingResponse(self._client.players)
 
 
 class AsyncLolesportsAPIWithStreamedResponse:
+    _client: AsyncLolesportsAPI
+
     def __init__(self, client: AsyncLolesportsAPI) -> None:
-        self.get_leagues = get_leagues.AsyncGetLeaguesResourceWithStreamingResponse(client.get_leagues)
-        self.get_schedule = get_schedule.AsyncGetScheduleResourceWithStreamingResponse(client.get_schedule)
-        self.get_live = get_live.AsyncGetLiveResourceWithStreamingResponse(client.get_live)
-        self.get_tournaments_for_league = (
-            get_tournaments_for_league.AsyncGetTournamentsForLeagueResourceWithStreamingResponse(
-                client.get_tournaments_for_league
-            )
-        )
-        self.get_standings = get_standings.AsyncGetStandingsResourceWithStreamingResponse(client.get_standings)
-        self.get_completed_events = get_completed_events.AsyncGetCompletedEventsResourceWithStreamingResponse(
-            client.get_completed_events
-        )
-        self.get_event_details = get_event_details.AsyncGetEventDetailsResourceWithStreamingResponse(
-            client.get_event_details
-        )
-        self.get_teams = get_teams.AsyncGetTeamsResourceWithStreamingResponse(client.get_teams)
-        self.get_games = get_games.AsyncGetGamesResourceWithStreamingResponse(client.get_games)
-        self.window = window.AsyncWindowResourceWithStreamingResponse(client.window)
-        self.details = details.AsyncDetailsResourceWithStreamingResponse(client.details)
-        self.nav_items = nav_items.AsyncNavItemsResourceWithStreamingResponse(client.nav_items)
-        self.videos = videos.AsyncVideosResourceWithStreamingResponse(client.videos)
-        self.highlander_tournaments = highlander_tournaments.AsyncHighlanderTournamentsResourceWithStreamingResponse(
-            client.highlander_tournaments
-        )
-        self.leagues = leagues.AsyncLeaguesResourceWithStreamingResponse(client.leagues)
-        self.schedule_items = schedule_items.AsyncScheduleItemsResourceWithStreamingResponse(client.schedule_items)
-        self.teams = teams.AsyncTeamsResourceWithStreamingResponse(client.teams)
-        self.players = players.AsyncPlayersResourceWithStreamingResponse(client.players)
+        self._client = client
+
+    @cached_property
+    def get_leagues(self) -> get_leagues.AsyncGetLeaguesResourceWithStreamingResponse:
+        from .resources.get_leagues import AsyncGetLeaguesResourceWithStreamingResponse
+
+        return AsyncGetLeaguesResourceWithStreamingResponse(self._client.get_leagues)
+
+    @cached_property
+    def get_schedule(self) -> get_schedule.AsyncGetScheduleResourceWithStreamingResponse:
+        from .resources.get_schedule import AsyncGetScheduleResourceWithStreamingResponse
+
+        return AsyncGetScheduleResourceWithStreamingResponse(self._client.get_schedule)
+
+    @cached_property
+    def get_live(self) -> get_live.AsyncGetLiveResourceWithStreamingResponse:
+        from .resources.get_live import AsyncGetLiveResourceWithStreamingResponse
+
+        return AsyncGetLiveResourceWithStreamingResponse(self._client.get_live)
+
+    @cached_property
+    def get_tournaments_for_league(
+        self,
+    ) -> get_tournaments_for_league.AsyncGetTournamentsForLeagueResourceWithStreamingResponse:
+        from .resources.get_tournaments_for_league import AsyncGetTournamentsForLeagueResourceWithStreamingResponse
+
+        return AsyncGetTournamentsForLeagueResourceWithStreamingResponse(self._client.get_tournaments_for_league)
+
+    @cached_property
+    def get_standings(self) -> get_standings.AsyncGetStandingsResourceWithStreamingResponse:
+        from .resources.get_standings import AsyncGetStandingsResourceWithStreamingResponse
+
+        return AsyncGetStandingsResourceWithStreamingResponse(self._client.get_standings)
+
+    @cached_property
+    def get_completed_events(self) -> get_completed_events.AsyncGetCompletedEventsResourceWithStreamingResponse:
+        from .resources.get_completed_events import AsyncGetCompletedEventsResourceWithStreamingResponse
+
+        return AsyncGetCompletedEventsResourceWithStreamingResponse(self._client.get_completed_events)
+
+    @cached_property
+    def get_event_details(self) -> get_event_details.AsyncGetEventDetailsResourceWithStreamingResponse:
+        from .resources.get_event_details import AsyncGetEventDetailsResourceWithStreamingResponse
+
+        return AsyncGetEventDetailsResourceWithStreamingResponse(self._client.get_event_details)
+
+    @cached_property
+    def get_teams(self) -> get_teams.AsyncGetTeamsResourceWithStreamingResponse:
+        from .resources.get_teams import AsyncGetTeamsResourceWithStreamingResponse
+
+        return AsyncGetTeamsResourceWithStreamingResponse(self._client.get_teams)
+
+    @cached_property
+    def get_games(self) -> get_games.AsyncGetGamesResourceWithStreamingResponse:
+        from .resources.get_games import AsyncGetGamesResourceWithStreamingResponse
+
+        return AsyncGetGamesResourceWithStreamingResponse(self._client.get_games)
+
+    @cached_property
+    def window(self) -> window.AsyncWindowResourceWithStreamingResponse:
+        from .resources.window import AsyncWindowResourceWithStreamingResponse
+
+        return AsyncWindowResourceWithStreamingResponse(self._client.window)
+
+    @cached_property
+    def details(self) -> details.AsyncDetailsResourceWithStreamingResponse:
+        from .resources.details import AsyncDetailsResourceWithStreamingResponse
+
+        return AsyncDetailsResourceWithStreamingResponse(self._client.details)
+
+    @cached_property
+    def nav_items(self) -> nav_items.AsyncNavItemsResourceWithStreamingResponse:
+        from .resources.nav_items import AsyncNavItemsResourceWithStreamingResponse
+
+        return AsyncNavItemsResourceWithStreamingResponse(self._client.nav_items)
+
+    @cached_property
+    def videos(self) -> videos.AsyncVideosResourceWithStreamingResponse:
+        from .resources.videos import AsyncVideosResourceWithStreamingResponse
+
+        return AsyncVideosResourceWithStreamingResponse(self._client.videos)
+
+    @cached_property
+    def highlander_tournaments(self) -> highlander_tournaments.AsyncHighlanderTournamentsResourceWithStreamingResponse:
+        from .resources.highlander_tournaments import AsyncHighlanderTournamentsResourceWithStreamingResponse
+
+        return AsyncHighlanderTournamentsResourceWithStreamingResponse(self._client.highlander_tournaments)
+
+    @cached_property
+    def leagues(self) -> leagues.AsyncLeaguesResourceWithStreamingResponse:
+        from .resources.leagues import AsyncLeaguesResourceWithStreamingResponse
+
+        return AsyncLeaguesResourceWithStreamingResponse(self._client.leagues)
+
+    @cached_property
+    def schedule_items(self) -> schedule_items.AsyncScheduleItemsResourceWithStreamingResponse:
+        from .resources.schedule_items import AsyncScheduleItemsResourceWithStreamingResponse
+
+        return AsyncScheduleItemsResourceWithStreamingResponse(self._client.schedule_items)
+
+    @cached_property
+    def teams(self) -> teams.AsyncTeamsResourceWithStreamingResponse:
+        from .resources.teams import AsyncTeamsResourceWithStreamingResponse
+
+        return AsyncTeamsResourceWithStreamingResponse(self._client.teams)
+
+    @cached_property
+    def players(self) -> players.AsyncPlayersResourceWithStreamingResponse:
+        from .resources.players import AsyncPlayersResourceWithStreamingResponse
+
+        return AsyncPlayersResourceWithStreamingResponse(self._client.players)
 
 
 Client = LolesportsAPI
