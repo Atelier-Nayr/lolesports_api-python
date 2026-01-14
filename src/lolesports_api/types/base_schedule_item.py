@@ -11,6 +11,13 @@ __all__ = ["BaseScheduleItem", "Tags"]
 
 
 class Tags(BaseModel):
+    """
+    The labels are used to describe the week and day the match/event is taking place in.
+    Also, it could indicate the stage of the tournament.
+
+    The blockPrefix comes before the block Label. Same with the subBlockPrefix and the subBlockLabel.
+    """
+
     block_label: str = FieldInfo(alias="blockLabel")
 
     league_label: str = FieldInfo(alias="leagueLabel")
